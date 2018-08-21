@@ -11,8 +11,11 @@ var (
 	ErrToken      = &Errno{Code: 20003, Message: "Error occurred while signing the JSON web token."}
 
 	// user errors
-	ErrEncrypt           = &Errno{Code: 20101, Message: "Error occurred while encrypting the user password."}
-	ErrUserNotFound      = &Errno{Code: 20102, Message: "The user was not found."}
-	ErrTokenInvalid      = &Errno{Code: 20103, Message: "The token was invalid."}
-	ErrPasswordIncorrect = &Errno{Code: 20104, Message: "The password was incorrect."}
+	ErrEncrypt            = &Errno{Code: 20101, Message: "Error occurred while encrypting the user password."}
+	ErrUserNotFound       = &Errno{Code: 20102, Message: "The user was not found."}
+	ErrTokenInvalid       = &Errno{Code: 20103, Message: "The token was invalid."}
+	ErrPasswordIncorrect  = &Errno{Code: 20104, Message: "The password was incorrect."}
+	ErrUsernameExist      = &Errno{Code: 20105, Message: "The username was existed."}
+	ErrDBArgumentInvalid  = &Errno{Code: 20106, Message: "The argument is invalid in DB layer."}
+	ErrApiArgumentInvalid = &Errno{Code: 20107, Message: "The argument is invalid in API layer."}
 )

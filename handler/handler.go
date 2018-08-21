@@ -22,3 +22,8 @@ func SendResponse(c *gin.Context, err error, data interface{}) {
 		Data:    data,
 	})
 }
+
+func Register(g *gin.Engine)  {
+	g.POST("/signup", SignUp)
+	g.GET("/", Hello)
+}

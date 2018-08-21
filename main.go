@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/hzxiao/taskmeter/config"
+	_ "github.com/hzxiao/taskmeter/docs"
 	"github.com/hzxiao/taskmeter/model"
 	"github.com/hzxiao/taskmeter/pkg/version"
 	"github.com/hzxiao/taskmeter/router"
@@ -40,6 +41,7 @@ func main() {
 	}
 
 	g := gin.New()
+
 	router.Load(g, middleware.Cors(), middleware.Logger())
 
 	log.Infof("Start to listening the incoming requests on http address: %s", config.GetString("addr"))

@@ -29,11 +29,11 @@ func Logger() gin.HandlerFunc {
 		start := time.Now().UTC()
 		path := c.Request.URL.Path
 
-		reg := regexp.MustCompile("(/v1/user|/login)")
+		reg := regexp.MustCompile("(/v1/user|/signup)")
 		if !reg.MatchString(path) {
 			return
 		}
-
+		//
 		// Read the Body content
 		var bodyBytes []byte
 		if c.Request.Body != nil {

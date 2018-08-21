@@ -4,6 +4,7 @@ import (
 	"github.com/lexkong/log"
 	"github.com/spf13/viper"
 	"strings"
+	"fmt"
 )
 
 type Config struct {
@@ -20,6 +21,7 @@ func Init(cfgName string) error {
 	}
 
 	c.initLog()
+	c.Print()
 	return nil
 }
 
@@ -58,6 +60,11 @@ func (c *Config) initLog() {
 	log.InitWithConfig(&passLagerCfg)
 }
 
+func (c *Config) Print()  {
+	for k, v := range viper.AllSettings() {
+		fmt.Printf("%v = %v\n", k, v)
+	}
+}
 func GetString(key string) string {
 	return viper.GetString(key)
 }

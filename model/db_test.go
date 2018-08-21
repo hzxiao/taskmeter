@@ -20,3 +20,8 @@ func init() {
 func TestInit(t *testing.T) {
 
 }
+
+func removeAll()  {
+	DB.C(CollSeq).RemoveAll(nil)
+	DB.C(CollUser).RemoveAll(nil)
+}

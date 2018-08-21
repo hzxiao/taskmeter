@@ -19,5 +19,5 @@ log:
   log_rotate_size: 1
   log_backup_count: 7
 db:
-  name: dev_taskmeter
+  name: test
   addr: loc.m:27017

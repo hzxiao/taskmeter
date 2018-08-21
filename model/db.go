@@ -6,6 +6,7 @@ import (
 	"github.com/lexkong/log"
 	"gopkg.in/mgo.v2"
 	"time"
+	"github.com/hzxiao/taskmeter/pkg/errno"
 )
 
 var DB *Database
@@ -19,6 +20,10 @@ type Database struct {
 func Init() error {
 	var err error
 	DB, err = openDB(config.GetString("db.addr"), config.GetString("db.name"))
+	if err != nil {
+		return err
+	}
+	err = DB.EnsureAllIndex(indexMap)
 	return err
 }
 
@@ -80,4 +85,22 @@ func (db *Database) ping() (err error) {
 		return errClosed
 	}
 	return
+}
+
+func (db *Database) EnsureAllIndex(indexMap map[string][]mgo.Index) (err error) {
+	for coll, indexs := range indexMap {
+		for _, index := range indexs {
+			err = db.C(coll).EnsureIndex(index)
+			if err != nil {
+				return
+			}
+		}
+	}
+	return
+}
+
+func newArgInvalidError(format string, message ...interface{}) error {
+	err := errno.New(errno.ErrDBArgumentInvalid, nil)
+	err.Addf(format, message...)
+	return err
 }
