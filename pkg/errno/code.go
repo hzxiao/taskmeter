@@ -17,5 +17,6 @@ var (
 	ErrPasswordIncorrect  = &Errno{Code: 20104, Message: "The password was incorrect."}
 	ErrUsernameExist      = &Errno{Code: 20105, Message: "The username was existed."}
 	ErrDBArgumentInvalid  = &Errno{Code: 20106, Message: "The argument is invalid in DB layer."}
-	ErrApiArgumentInvalid = &Errno{Code: 20107, Message: "The argument is invalid in API layer."}
+	ErrServiceArgInvalid  = &Errno{Code: 20107, Message: "The argument is invalid in Service layer."}
+	ErrApiArgumentInvalid = &Errno{Code: 20108, Message: "The argument is invalid in API layer."}
 )

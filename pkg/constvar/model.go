@@ -1,6 +1,5 @@
 package constvar
 
-
 //seq type
 const (
 	UserSeq = "user"
@@ -15,5 +14,17 @@ const (
 
 //op record type
 const (
-	SignInOp = "signIn"
+	SignInOp = "SING_IN"
+)
+
+//register method
+const (
+	WeiXinRegister   = "WX"
+	UsernameRegister = "USERNAME"
+)
+
+//login method
+const (
+	WeiXinLogin = "WX"
+	UsernameLogin = "USERNAME"
 )

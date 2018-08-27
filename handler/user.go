@@ -3,8 +3,9 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/hzxiao/goutil"
-	"github.com/hzxiao/taskmeter/model"
+	"github.com/hzxiao/taskmeter/pkg/constvar"
 	"github.com/hzxiao/taskmeter/pkg/errno"
+	"github.com/hzxiao/taskmeter/service"
 	"github.com/lexkong/log"
 	"strings"
 )
@@ -25,7 +26,8 @@ func SignUp(c *gin.Context) {
 		return
 	}
 
-	user, err := model.InsertUser(data)
+	data.Set("method", constvar.UsernameRegister)
+	user, err := service.SignUp(data)
 	if err == nil {
 		log.Infof("[SignUp] sign up by user(%v)", goutil.Struct2Json(user))
 		SendResponse(c, nil, goutil.Map{"user": user})
@@ -48,7 +50,6 @@ func SignUp(c *gin.Context) {
 // @Param password body string true "Password"
 // @Success 200 {string} json "{"code":0,"message":"OK","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZXJuYW1lIjoiYWRtaW4ifQ.LjxrK9DuAwAzUD8-9v43NzWBN7HXsSLfebw92DKd1JQ"}}"
 // @Router /login [post]
-func Hello(c *gin.Context)  {
+func Login(c *gin.Context) {
 	SendResponse(c, nil, "hello")
 }
-
