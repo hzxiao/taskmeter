@@ -47,7 +47,7 @@ func FindUser(u *User) (*User, error) {
 	}
 
 	finder := bson.M{}
-	if u.Id == "" {
+	if u.Id != "" {
 		finder["_id"] = u.Id
 	}
 	if len(u.UName) > 0 {
@@ -57,12 +57,12 @@ func FindUser(u *User) (*User, error) {
 		finder["verification."+k] = v
 	}
 
-	var user User
+	var user = &User{}
 	err := one(CollUser, finder, nil, &user)
 	if err != nil {
 		err = errno.New(errno.ErrDatabase, err).Addf("find user by finder(%v)", goutil.Struct2Json(finder))
 		return nil, err
 	}
 
-	return &user, nil
+	return user, nil
 }

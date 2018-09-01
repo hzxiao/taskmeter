@@ -23,3 +23,9 @@ func init() {
 
 	httptest.GinEngine = g
 }
+
+func removeAll()  {
+	model.DB.C(model.CollUser).RemoveAll(nil)
+	model.DB.C(model.CollSeq).RemoveAll(nil)
+	model.DB.C(model.CollOp).RemoveAll(nil)
+}

@@ -7,5 +7,5 @@ func insert(coll string, docs ...interface{}) error {
 }
 
 func one(coll string, find, selector bson.M, v interface{}) error {
-	return DB.C(coll).Find(find).Select(selector).One(&v)
+	return DB.C(coll).Find(find).Select(selector).One(v)
 }

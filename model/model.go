@@ -14,7 +14,7 @@ const (
 var indexMap = map[string][]mgo.Index{
 	CollUser: {
 		{Name: "uname", Key: []string{"uname"}, Unique: true},
-		{Name: "verification_wxOpenId", Key: []string{"verification.wxOpenId"}, Unique: true},
+		{Name: "verification_wxOpenId", Key: []string{"verification.wxOpenId"}, Unique: true, Sparse: true},
 	},
 }
 

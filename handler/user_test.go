@@ -2,13 +2,32 @@ package handler
 
 import (
 	"github.com/hzxiao/goutil/assert"
-	"github.com/hzxiao/taskmeter/pkg/httptest"
 	"testing"
+	"github.com/hzxiao/goutil"
 )
 
-func TestHello(t *testing.T) {
-	res, err := httptest.Get("/")
+func TestLogin(t *testing.T) {
+	removeAll()
+
+	//sign up first
+	_, err := DoSignUp(goutil.Map{"username": "x", "password": "1"})
 	assert.NoError(t, err)
 
-	assert.Equal(t, "hello", res.GetStringP("data"))
+	res, err := DoLogin("x", "1")
+	assert.NoError(t, err)
+
+	assert.NotNil(t, res.GetString("token"))
+}
+
+func TestSignUp(t *testing.T) {
+	removeAll()
+
+	result, err := DoSignUp(goutil.Map{"username": "x", "password": "1"})
+	assert.NoError(t, err)
+
+	assert.NotNil(t, result)
+	assert.Equal(t, "x", result.GetString("username"))
+
+	result, err = DoSignUp(goutil.Map{"username": "x", "password": "1"})
+	assert.Error(t, err)
 }

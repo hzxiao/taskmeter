@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"bytes"
 )
 
 var GinEngine *gin.Engine
@@ -65,4 +66,8 @@ func fetchJson(w http.ResponseWriter) (goutil.Map, error) {
 		return nil, err
 	}
 	return data, err
+}
+
+func PostJSON(url string, body interface{}) (goutil.Map, error) {
+	return Post(url, "application/json", bytes.NewBufferString(goutil.Struct2Json(body)))
 }
