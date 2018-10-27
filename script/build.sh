@@ -8,7 +8,7 @@ set -e
 # you should set these follow variables before exec `make build`
 # GOPATH: go path
 # PROJ_DIR: project path
-PROJ_DIR=github.com/hzxiao1
+PROJ_DIR=github.com/hzxiao
 PROJ_NAME=taskmeter
 #BRANCH: project git branch
 BRANCH=master
