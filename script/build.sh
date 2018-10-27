@@ -52,6 +52,6 @@ fi
 	cp -R conf/* $OUTPUT_DIR/$PROJ_NAME/conf
 	cp -R script/* $OUTPUT_DIR/$PROJ_NAME/script
 	mv $PROJ_NAME $OUTPUT_DI/$PROJ_NAME
-	cp Makefile $OUTPUT_DI/$PROJ_NAME
+	cp Makefile $OUTPUT_DIR/$PROJ_NAME
 	cd $OUTPUT_DIR
 	zip -r -q $PROJ_NAM.zip $PROJ_NAME
