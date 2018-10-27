@@ -51,7 +51,7 @@ fi
 	go build -v -ldflags "-w -X ${versionDir}.gitTag=${gitTag} -X ${versionDir}.buildDate=${buildDate} -X ${versionDir}.gitCommit=${gitCommit} -X ${versionDir}.gitTreeState=${gitTreeState}" .
 	cp -R conf/* $OUTPUT_DIR/$PROJ_NAME/conf
 	cp -R script/* $OUTPUT_DIR/$PROJ_NAME/script
-	mv $PROJ_NAME $OUTPUT_DI/$PROJ_NAME
+	mv $PROJ_NAME $OUTPUT_DIR/$PROJ_NAME
 	cp Makefile $OUTPUT_DIR/$PROJ_NAME
 	cd $OUTPUT_DIR
 	zip -r -q $PROJ_NAM.zip $PROJ_NAME
