@@ -54,4 +54,4 @@ fi
 	mv $PROJ_NAME $OUTPUT_DIR/$PROJ_NAME
 	cp Makefile $OUTPUT_DIR/$PROJ_NAME
 	cd $OUTPUT_DIR
-	zip -r -q $PROJ_NAM.zip $PROJ_NAME
+	zip -r -q $PROJ_NAME.zip $PROJ_NAME
