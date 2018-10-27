@@ -5,7 +5,7 @@ test:
 	go test ./...
 
 build:
-    script/build.sh
+	script/build.sh
 fmt:
 	@gofmt -w .
 
