@@ -8,7 +8,7 @@ set -e
 # you should set these follow variables before exec `make build`
 # GOPATH: go path
 # PROJ_DIR: project path
-PROJ_DIR=github.com/hzxiao
+PROJ_DIR=github.com/hzxiao1
 PROJ_NAME=taskmeter
 #BRANCH: project git branch
 BRANCH=master
@@ -25,7 +25,7 @@ buildDate=$(TZ=Asia/Shanghai date +%FT%T%z)
 gitCommit=$(git log --pretty=format:'%H' -n 1)
 gitTreeState=$(if git status|grep -q 'clean';then echo clean; else echo dirty; fi)
 #
-ldflags="-w -X ${versionDir}.gitTag=${gitTag} -X ${versionDir}.buildDate=${buildDate} -X ${versionDir}.gitCommit=${gitCommit} -X ${versionDir}.gitTreeState=${gitTreeState}"
+#ldflags="-w -X ${versionDir}.gitTag=${gitTag} -X ${versionDir}.buildDate=${buildDate} -X ${versionDir}.gitCommit=${gitCommit} -X ${versionDir}.gitTreeState=${gitTreeState}"
 
 
 if [ ! -d ${PROJ_FULL_DIR} ];then
@@ -48,7 +48,7 @@ fi
 	mkdir -p $OUTPUT_DIR/$PROJ_NAME
 	mkdir -p $OUTPUT_DIR/$PROJ_NAME/conf
 	mkdir -p $OUTPUT_DIR/$PROJ_NAME/script
-	go build -v -ldflags ${ldflags} .
+	go build -v -ldflags "-w -X ${versionDir}.gitTag=${gitTag} -X ${versionDir}.buildDate=${buildDate} -X ${versionDir}.gitCommit=${gitCommit} -X ${versionDir}.gitTreeState=${gitTreeState}" .
 	cp -R conf/* $OUTPUT_DIR/$PROJ_NAME/conf
 	cp -R script/* $OUTPUT_DIR/$PROJ_NAME/script
 	mv $PROJ_NAME $OUTPUT_DI/$PROJ_NAME
