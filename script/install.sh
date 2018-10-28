@@ -45,7 +45,7 @@ rm -fr $INSTALL_DIR/$PKG_NAME
 
 cp $SAVE_PKG_DIR/$PKG_NAME.zip $INSTALL_DIR
 cwd=`pwd`
-cd $$INSTALL_DIR
+cd $INSTALL_DIR
 unzip $PKG_NAME.zip
 cd $cwd
 
