@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
+set -e
 
-PKG_MAME=taskmeter
+PKG_NAME=taskmeter
 
 if [ -z "${SAVE_PKG_DIR}" ]; then
     echo "empty env value of SAVE_PKG_DIR"
