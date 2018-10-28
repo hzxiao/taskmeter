@@ -47,6 +47,6 @@ cp Makefile $OUTPUT_DIR/$PROJ_NAME
 cd $OUTPUT_DIR
 zip -r -q $PROJ_NAME.zip $PROJ_NAME
 
-if [ -d ${SAVE_PKG_DIR} ]; then
+if [ -n "${SAVE_PKG_DIR}" ]; then
     cp $PROJ_NAME.zip ${SAVE_PKG_DIR}
 fi
