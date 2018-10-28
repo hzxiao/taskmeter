@@ -9,7 +9,7 @@ build:
 
 install:
 	script/install.sh
-	
+
 fmt:
 	@gofmt -w .
 
