@@ -49,7 +49,7 @@ cd $INSTALL_DIR
 unzip $PKG_NAME.zip
 cd $cwd
 
-if supervisorctl $PROGRAM status > /dev/null 2>&1; then
+if [ ! -f "/etc/supervisor/conf.d/${PROGRAM}.conf" ]; then
     echo "服务 $PROGRAM 已安装，直接重启"
     supervisorctl $PROGRAM restart
 else
