@@ -25,6 +25,19 @@ const (
 
 //login method
 const (
-	WeiXinLogin = "WX"
+	WeiXinLogin   = "WX"
 	UsernameLogin = "USERNAME"
+)
+
+//status
+const (
+	Normal  = 100
+	Deleted = 200
+)
+
+//task state
+const (
+	TaskPaused  = 10
+	TaskRunning = 20
+	TaskOverdue = 30
 )

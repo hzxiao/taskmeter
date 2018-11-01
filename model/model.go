@@ -20,6 +20,7 @@ var indexMap = map[string][]mgo.Index{
 	},
 	CollTask: {
 		{Name: "tags", Key: []string{"tags"}},
+		{Name: "running_mark", Key: []string{"runningMark"}, Unique: true, Sparse: true},
 	},
 	CollTag: {
 		{Name: "uidName", Key: []string{"uidName"}, Unique: true, Sparse: true},
@@ -54,18 +55,20 @@ type OpRecord struct {
 }
 
 type Task struct {
-	Id        string    `bson:"_id" json:"id"`
-	Uid       string    `bson:"uid" json:"uid"`
-	Title     string    `bson:"title" json:"title"`
-	Desc      string    `bson:"desc" json:"desc"`
-	Tags      []string  `bson:"tags" json:"tags"`
-	Attr      *TaskAttr `bson:"attr" json:"attr"`
-	Spending  int64     `bson:"spending" json:"spending"`
-	LastStart int64     `bson:"lastStart" json:"lastStart"`
-	State     int       `bson:"state" json:"state"`
-	Status    int       `bson:"status" json:"-"`
-	Create    int64     `bson:"create" json:"create"`
-	Last      int64     `bson:"last" json:"last"`
+	Id          string    `bson:"_id" json:"id"`
+	Uid         string    `bson:"uid" json:"uid"`
+	Pid         string    `bson:"pid" json:"pid"` //project id
+	Title       string    `bson:"title" json:"title"`
+	Desc        string    `bson:"desc" json:"desc"`
+	Tags        []string  `bson:"tags" json:"tags"`
+	Attr        *TaskAttr `bson:"attr" json:"attr"` //tag id list
+	Spending    int64     `bson:"spending" json:"spending"`
+	LastStart   int64     `bson:"lastStart" json:"lastStart"`
+	State       int       `bson:"state" json:"state"`
+	Status      int       `bson:"status" json:"-"`
+	Create      int64     `bson:"create" json:"create"`
+	Last        int64     `bson:"last" json:"last"`
+	RunningMark string    `bson:"runningMark" json:"-"` //running mark, unique for the user
 }
 
 type TaskAttr struct {
@@ -74,6 +77,16 @@ type TaskAttr struct {
 }
 
 type Tag struct {
+	Id      string `bson:"_id" json:"id"`
+	Uid     string `bson:"uid" json:"uid"`
+	Name    string `bson:"name" json:"name"`
+	Status  int    `bson:"status" json:"-"`
+	Create  int64  `bson:"create" json:"create"`
+	Last    int64  `bson:"last" json:"last"`
+	UidName string `bson:"uidName" json:"-"` //unique mask
+}
+
+type Project struct {
 	Id      string `bson:"_id" json:"id"`
 	Uid     string `bson:"uid" json:"uid"`
 	Name    string `bson:"name" json:"name"`
