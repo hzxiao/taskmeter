@@ -49,10 +49,10 @@ cd $INSTALL_DIR
 unzip $PKG_NAME.zip
 cd $cwd
 
-if [ ! -f "/etc/supervisor/conf.d/${PROGRAM}.conf" ]; then
+if supervisorctl statuc $PROGRAM > /dev/null 2>&1; then
     echo "服务 $PROGRAM 已安装，直接重启"
-    supervisorctl $PROGRAM restart
+    supervisorctl restart $PROGRAM
 else
     cat script/app.supervisor.conf /etc/supervisor/conf.d/$PROGRAM.conf
-    supervisorctl $PROGRAM start
+    supervisorctl start $PROGRAM
 fi
