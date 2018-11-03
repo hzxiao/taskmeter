@@ -9,7 +9,10 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func InsertTask(task Task) error {
+func InsertTask(task *Task) error {
+	if task == nil {
+		return newArgInvalidError("task is nil")
+	}
 	task.Id = "TK" + bson.NewObjectId().Hex()
 	task.Spending = 0
 	task.LastStart = 0
@@ -17,11 +20,12 @@ func InsertTask(task Task) error {
 	task.State = constvar.TaskPaused
 	task.Create = timeutil.Now()
 	task.Last = task.Create
+	task.RunningMark = ""
 
 	err := insert(CollTask, &task)
 	if err != nil {
-		err = errno.New(errno.ErrDatabase, err).Addf("insert task by data(%gv)", goutil.Struct2Json(&task))
-		log.Errorf(err, "[InsertTask] %v", err)
+		err = errno.New(errno.ErrDatabase, err).Addf("insert task by data(%v)", goutil.Struct2Json(&task))
+		log.Errorf(err, "[InsertTask]")
 		return err
 	}
 	return nil
@@ -51,6 +55,9 @@ func UpdateTaskBasic(task Task) error {
 	}
 	if task.Status > 0 {
 		set["status"] = task.Status
+		if task.Status == constvar.Deleted {
+			unset["runningMark"] = true
+		}
 	}
 	if task.State == constvar.TaskPaused {
 		set["state"] = task.State
@@ -66,7 +73,7 @@ func UpdateTaskBasic(task Task) error {
 		set["lastStart"] = timeutil.Now()
 		set["runningMark"] = task.Uid
 		//
-		finder["runningMark"] = bson.M{"$exist": false}
+		finder["runningMark"] = bson.M{"$exists": false}
 	}
 
 	if len(set) == 0 {
@@ -128,11 +135,27 @@ func ListTasks(task Task, selector, sort []string, skip, limit int) ([]*Task, in
 		finder["pid"] = task.Pid
 	}
 	if len(task.Tags) > 0 {
-
+		finder["tags"] = bson.M{"$elemMatch": bson.M{"$in": task.Tags}}
 	}
-	return nil, 0, nil
+
+	var tasks []*Task
+	total, err := list(CollTask, finder, selector, sort, skip, limit, true, &tasks)
+	if err != nil {
+		err = errno.New(errno.ErrDatabase, err).Addf("list tasks by finder(%v)", goutil.Struct2Json(finder))
+		log.Errorf(err, "[ListTasks]")
+		return nil, 0, err
+	}
+	return tasks, total, nil
 }
 
 func LoadTask(id string, selector []string) (*Task, error) {
-	return nil, nil
+	var task Task
+	finder := bson.M{"_id": id, "status": constvar.Normal}
+	err := one(CollTask, finder, formatSelector(selector), &task)
+	if err != nil {
+		err = errno.New(errno.ErrDatabase, err).Addf("load task by id(%v)", id)
+		log.Errorf(err, "[LoadTask]")
+		return nil, err
+	}
+	return &task, nil
 }

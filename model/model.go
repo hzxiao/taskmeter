@@ -68,7 +68,7 @@ type Task struct {
 	Status      int       `bson:"status" json:"-"`
 	Create      int64     `bson:"create" json:"create"`
 	Last        int64     `bson:"last" json:"last"`
-	RunningMark string    `bson:"runningMark" json:"-"` //running mark, unique for the user
+	RunningMark string    `bson:"runningMark,omitempty" json:"-"` //running mark, unique for the user
 }
 
 type TaskAttr struct {

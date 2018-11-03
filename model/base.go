@@ -1,6 +1,9 @@
 package model
 
-import "gopkg.in/mgo.v2/bson"
+import (
+	"gopkg.in/mgo.v2/bson"
+	"strings"
+)
 
 func insert(coll string, docs ...interface{}) error {
 	return DB.C(coll).Insert(docs...)
@@ -14,7 +17,7 @@ func update(coll string, finder, updater bson.M) error {
 	return DB.C(coll).Update(finder, updater)
 }
 
-func list(coll string, cond, selector, sort []string, skip, limit int, needCount bool, v interface{}) (int, error) {
+func list(coll string, cond bson.M, selector, sort []string, skip, limit int, needCount bool, v interface{}) (int, error) {
 	query := DB.C(coll).Find(cond).Sort(sort...).Select(formatSelector(selector))
 	var count int
 	var err error
@@ -44,4 +47,8 @@ func formatSelector(ss []string) bson.M {
 		m[s] = 1
 	}
 	return m
+}
+
+func ContactValue(ss ...string) string {
+	return strings.Join(ss, "#")
 }

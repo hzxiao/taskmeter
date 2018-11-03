@@ -1,8 +1,20 @@
 package model
 
+import (
+	"gopkg.in/mgo.v2/bson"
+	"github.com/hzxiao/taskmeter/pkg/constvar"
+	"github.com/hzxiao/taskmeter/pkg/timeutil"
+)
 
-
-func InsertTag(tag Tag) error {
+func InsertTag(tag *Tag) error {
+	if tag == nil {
+		return newArgInvalidError("tag is nil")
+	}
+	tag.Id = "TG"+bson.NewObjectId().Hex()
+	tag.Status = constvar.Normal
+	tag.Create = timeutil.Now()
+	tag.Last = tag.Create
+	tag.UidName = ContactValue(tag.Uid, tag.UidName)
 	return nil
 }
 

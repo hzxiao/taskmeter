@@ -1,11 +1,16 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/hzxiao/taskmeter/pkg/errno"
-	"net/http"
-	"github.com/hzxiao/goutil"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/hzxiao/goutil"
+	"github.com/hzxiao/taskmeter/pkg/errno"
+	"github.com/hzxiao/taskmeter/pkg/timeutil"
+	"net/http"
+)
+
+var (
+	StartMoment = timeutil.Now()
 )
 
 type Response struct {
@@ -25,9 +30,22 @@ func SendResponse(c *gin.Context, err error, data interface{}) {
 	})
 }
 
-func Register(g *gin.Engine)  {
-	g.POST("/signup", SignUp)
-	g.POST("/login", Login)
+func Register(g *gin.Engine) {
+	v1 := g.Group("/api/v1")
+
+	pub := v1.Group("/pub")
+	pub.GET("/ping", Ping)
+	pub.POST("/signup", SignUp)
+	pub.POST("/login", Login)
+}
+
+func Ping(c *gin.Context) {
+	SendResponse(c, nil, goutil.Map{
+		"start":       StartMoment,
+		"startFormat": timeutil.GetDateString(StartMoment),
+		"now":         timeutil.Now(),
+		"nowFormat":   timeutil.GetDateString(timeutil.Now()),
+	})
 }
 
 func checkResultError(data goutil.Map, err error) (goutil.Map, error) {

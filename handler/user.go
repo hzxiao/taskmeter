@@ -47,7 +47,7 @@ func SignUp(c *gin.Context) {
 }
 
 func DoSignUp(data goutil.Map) (goutil.Map, error) {
-	return checkResultError(httptest.PostJSON("/signup", data))
+	return checkResultError(httptest.PostJSON("/api/v1/pub/signup", data))
 }
 
 // @Summary Login generates the authentication token
@@ -92,5 +92,5 @@ func Login(c *gin.Context) {
 }
 
 func DoLogin(username, password string) (goutil.Map, error) {
-	return checkResultError(httptest.PostJSON("/login", goutil.Map{"username": username, "password": password}))
+	return checkResultError(httptest.PostJSON("/api/v1/pub/login", goutil.Map{"username": username, "password": password}))
 }
