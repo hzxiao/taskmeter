@@ -5,7 +5,7 @@ import (
 )
 
 func Now() int64 {
-	return time.Now().Unix() / int64(time.Millisecond)
+	return time.Now().Local().UnixNano() / int64(time.Millisecond)
 }
 
 func GetDateString(timestamp int64) string {
