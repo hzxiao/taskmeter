@@ -5,29 +5,27 @@
         "license": {}
     },
     "paths": {
-        "/login": {
+        "/api/v1/pub/login": {
             "post": {
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "user"
                 ],
                 "summary": "Login generates the authentication token",
                 "parameters": [
                     {
-                        "description": "Username",
-                        "name": "username",
+                        "description": "user info for login",
+                        "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "object"
-                        }
-                    },
-                    {
-                        "description": "Password",
-                        "name": "password",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "object"
+                            "type": "object",
+                            "$ref": "#/definitions/model.Tag"
                         }
                     }
                 ],
@@ -81,6 +79,28 @@
                             "type": "string"
                         }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Tag": {
+            "type": "object",
+            "properties": {
+                "create": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "last": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "uid": {
+                    "type": "string"
                 }
             }
         }

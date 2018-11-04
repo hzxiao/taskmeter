@@ -1,0 +1,64 @@
+FORMAT: 1A
+HOST: http://localhost:3000
+
+# TaskMeter
+
+TaskMeter is a tool for managing your ongoing tasks
+
+# Group Public
+
+## Ping [GET /api/v1/pub/ping]
+
+ping request will get service started time and current time.
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "now":1541310360583,
+        "nowFormat":"04/11/2018 13:46:00",
+        "start":1541234529569,
+        "startFormat":"03/11/2018 16:42:09"
+    }
+}
+
+
+## Sign Up [POST /api/v1/pub/signup]
+
++ Request (application/json)
+
+{
+    "username": "username",
+    "password": "password"
+}
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "username":"username"
+    }
+}
+
+## Login [POST /api/v1/pub/login]
+
++ Request (application/json)
+
+{
+    "username": "username",
+    "password": "password"
+}
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZXJuYW1lIjoiYWRtaW4ifQ.LjxrK9DuAwAzUD8-9v43NzWBN7HXsSLfebw92DKd1JQ"
+    }
+}

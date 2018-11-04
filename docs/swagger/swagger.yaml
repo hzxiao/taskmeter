@@ -1,21 +1,32 @@
+definitions:
+  model.Tag:
+    properties:
+      create:
+        type: integer
+      id:
+        type: string
+      last:
+        type: integer
+      name:
+        type: string
+      uid:
+        type: string
+    type: object
 info:
   contact: {}
   license: {}
 paths:
-  /login:
+  /api/v1/pub/login:
     post:
+      consumes:
+      - application/json
       parameters:
-      - description: Username
+      - description: user info for login
         in: body
-        name: username
+        name: user
         required: true
         schema:
-          type: object
-      - description: Password
-        in: body
-        name: password
-        required: true
-        schema:
+          $ref: '#/definitions/model.Tag'
           type: object
       produces:
       - application/json
@@ -25,6 +36,8 @@ paths:
           schema:
             type: string
       summary: Login generates the authentication token
+      tags:
+      - user
   /signup:
     post:
       consumes:

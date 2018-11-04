@@ -2,11 +2,11 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/hzxiao/taskmeter/handler"
 	"github.com/hzxiao/taskmeter/router/middleware"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"net/http"
-	"github.com/hzxiao/taskmeter/handler"
 )
 
 func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
