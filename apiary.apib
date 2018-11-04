@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://localhost:3000
+HOST: https://tmtest.hzxiao.cn
 
 # TaskMeter
 
@@ -61,4 +61,279 @@ ping request will get service started time and current time.
     "data":{
         "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZXJuYW1lIjoiYWRtaW4ifQ.LjxrK9DuAwAzUD8-9v43NzWBN7HXsSLfebw92DKd1JQ"
     }
+}
+
+## WeChat Login [POST /api/v1/pub/wxlogin]
+
+WeChat MinProgram Login
+
++ Request (application/json)
+
+{
+    "code": "123456"
+}
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZXJuYW1lIjoiYWRtaW4ifQ.LjxrK9DuAwAzUD8-9v43NzWBN7HXsSLfebw92DKd1JQ"
+    }
+}
+
+# Group Projects
+
+Project represents a collection of tasks
+
+## Projects Collection [/api/v1/usr/projects]
+
+### List All Projects [GET]
+
++ Parameters
+
+    + offset (number, optional) - The start position of results to return.
+        + Default: `0`
+
+    + limit (number, optional) - The maximum number of results to return.
+        + Default: `20`
+
+    + sortBy (string, optional) - The sort field of results, it could be following value
+        + create: sort by create time of data.
+        + last: sort by last update time of data.
+
+    + sortModel (string, optional) - The sort model of results, it could be following value:
+        + asc: Ascending order.
+        + desc: Descending order.
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "projects": [
+            {
+                "id": "PJ123",
+                "name": "Study"
+            },
+            {
+                "id": "PJ124",
+                "name": "Work"
+            }
+        ],
+        "cond": {
+            "offset": 0,
+            "limit": 20,
+            "sortBy": "",
+            "sortModel": ""
+        },
+        "queryInfo": {
+            "returnCount": 2,
+            "total": 2
+        }
+    }
+}
+
+### Add A Project [POST]
+
+
++ Request (application/json)
+
+{
+    "name": "Study"
+}
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "project": {
+            "id": "PJ123",
+            "name": "Study"
+        }
+    }
+}
+
+## Project Detail [/api/v1/usr/projects/{project_id}]
+
++ Parameters
+
+    + project_id: `PJ123` (string) - The id of the project.
+
+### Load A Project [GET]
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "project": {
+            "id": "PJ123",
+            "name": "Study"
+        }
+    }
+}
+
+### Update A Project [PUT]
+
++ Request (application/json)
+
+{
+    "name": "Life"
+}
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "project": {
+            "id": "PJ123",
+            "name": "Life"
+        }
+    }
+}
+
+### Delete A Project [DELETE]
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK"
+}
+
+
+# Group Tasks
+
+# Group Tags
+
+Tags of tasks
+
+## Tags Collection [/api/v1/usr/tags]
+
+### List All Tags [GET]
+
++ Parameters
+
+    + offset (number, optional) - The start position of results to return.
+        + Default: `0`
+
+    + limit (number, optional) - The maximum number of results to return.
+        + Default: `20`
+
+    + sortBy (string, optional) - The sort field of results, it could be following value
+        + create: sort by create time of data.
+        + last: sort by last update time of data.
+
+    + sortModel (string, optional) - The sort model of results, it could be following value:
+        + asc: Ascending order.
+        + desc: Descending order.
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "tags": [
+            {
+                "id": "TG123",
+                "name": "Music"
+            },
+            {
+                "id": "TG124",
+                "name": "Sport"
+            }
+        ],
+        "cond": {
+            "offset": 0,
+            "limit": 20,
+            "sortBy": "",
+            "sortModel": ""
+        },
+        "queryInfo": {
+            "returnCount": 2,
+            "total": 2
+        }
+    }
+}
+
+### Add A Tag [POST]
+
+
++ Request (application/json)
+
+{
+    "name": "Music"
+}
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "tag": {
+            "id": "TG123",
+            "name": "Music"
+        }
+    }
+}
+
+## Tag Detail [/api/v1/usr/tags/{tag_id}]
+
++ Parameters
+
+    + tag_id: `TG123` (string) - The id of the tag.
+
+### Load A Project [GET]
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "tag": {
+            "id": "TG123",
+            "name": "Music"
+        }
+    }
+}
+
+### Update A Tag [PUT]
+
++ Request (application/json)
+
+{
+    "name": "Art"
+}
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "tag": {
+            "id": "TG123",
+            "name": "Art"
+        }
+    }
+}
+
+### Delete A Tag [DELETE]
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK"
 }
