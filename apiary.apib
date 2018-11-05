@@ -212,6 +212,288 @@ Project represents a collection of tasks
 
 # Group Tasks
 
+Task is the main data structure in this system. A task has basic info, attributes,
+
+and 3 states. A task must be in one state of following states:
+
++ 10: represent paused state.
++ 20: represent running state, Only one task per user is running
++ 30: represent overdue state.
+
+## Tasks Collection of Project [/api/v1/usr/projects/{project_id}/tasks]
+
++ Parameters
+
+    + project_id: `PJ123` (string) - The id of the project.
+
+### Add A Task [POST]
+
++ Request (application/json)
+
+{
+    "title": "Learn C++",
+    "desc": "Learn by watching videos",
+    "tags": [
+        "TG110"
+    ],
+    "attr": {
+        "duration": 0,
+        "deadline": 0
+    }
+}
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "task":{
+            "id":"TK123",
+            "title":"Learn C++",
+            "desc":"Learn by watching videos",
+            "tags":[
+                "TG110"
+            ],
+            "attr":{
+                "duration":0,
+                "deadline":0
+            },
+            "state":10,
+            "spending":0,
+            "lastStart":0
+        }
+    }
+}
+
+### List Tasks Of Project [GET]
+
++ Parameters
+
+    + offset (number, optional) - The start position of results to return.
+        + Default: `0`
+
+    + limit (number, optional) - The maximum number of results to return.
+        + Default: `20`
+
+    + sortBy (string, optional) - The sort field of results, it could be following value
+        + create: sort by create time of data.
+        + last: sort by last update time of data.
+
+    + sortModel (string, optional) - The sort model of results, it could be following value:
+        + asc: Ascending order.
+        + desc: Descending order.
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "tasks":[
+            {
+                "id":"TK123",
+                "title":"Learn C++",
+                "desc":"Learn by watching videos",
+                "tags":[
+                    "TG110"
+                ],
+                "attr":{
+                    "duration":0,
+                    "deadline":0
+                },
+                "state":10,
+                "spending":0,
+                "lastStart":0
+            },
+            {
+                "id":"TK124",
+                "title":"Learn Go",
+                "desc":"Learn by watching videos",
+                "tags":[
+                    "TG110"
+                ],
+                "attr":{
+                    "duration":3600,
+                    "deadline":0
+                },
+                "state":10,
+                "spending":100,
+                "lastStart":1541234529569
+            }
+        ],
+        "cond":{
+            "offset":0,
+            "limit":20,
+            "sortBy":"",
+            "sortModel":""
+        },
+        "queryInfo":{
+            "returnCount":2,
+            "total":2
+        }
+    }
+}
+
+## Task Detail [/api/v1/usr/tasks/{task_id}]
+
+
++ Parameters
+
+    + task_id: `TK123` (string) - The id of the task.
+
+
+### Load A Task [GET]
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "task":{
+            "id":"TK123",
+            "title":"Learn C++",
+            "desc":"Learn by watching videos",
+            "tags":[
+                "TG110"
+            ],
+            "attr":{
+                "duration":0,
+                "deadline":0
+            },
+            "state":10,
+            "spending":0,
+            "lastStart":0
+        }
+    }
+}
+
+### Update A Task [PUT]
+
++ Request (application/json)
+
+{
+    "title": "Learn C++",
+    "desc": "Learn by watching videos",
+    "tags": [
+        "TG110"
+    ],
+    "attr": {
+        "duration": 10000000,
+        "deadline": 0
+    },
+    "state": 10
+}
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "task":{
+            "id":"TK123",
+            "title":"Learn C++",
+            "desc":"Learn by watching videos",
+            "tags":[
+                "TG110"
+            ],
+            "attr":{
+                "duration":10000000,
+                "deadline":0
+            },
+            "state":10,
+            "spending":0,
+            "lastStart":0
+        }
+    }
+}
+
+### Delete A Task [DELETE]
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK"
+}
+
+
+## Search Tasks [GET /api/v1/usr/search/tasks]
+
++ Parameters
+
+    + title: (string, optional) - the input text to match title of tasks.
+
+    + offset (number, optional) - The start position of results to return.
+        + Default: `0`
+
+    + limit (number, optional) - The maximum number of results to return.
+        + Default: `20`
+
+    + sortBy (string, optional) - The sort field of results, it could be following value
+        + create: sort by create time of data.
+        + last: sort by last update time of data.
+
+    + sortModel (string, optional) - The sort model of results, it could be following value:
+        + asc: Ascending order.
+        + desc: Descending order.
+
+
++ Response 200 (application/json)
+
+{
+    "code":0,
+    "message":"OK",
+    "data":{
+        "tasks":[
+            {
+                "id":"TK123",
+                "title":"Learn C++",
+                "desc":"Learn by watching videos",
+                "tags":[
+                    "TG110"
+                ],
+                "attr":{
+                    "duration":0,
+                    "deadline":0
+                },
+                "state":10,
+                "spending":0,
+                "lastStart":0
+            },
+            {
+                "id":"TK124",
+                "title":"Learn Go",
+                "desc":"Learn by watching videos",
+                "tags":[
+                    "TG110"
+                ],
+                "attr":{
+                    "duration":3600,
+                    "deadline":0
+                },
+                "state":10,
+                "spending":100,
+                "lastStart":1541234529569
+            }
+        ],
+        "cond":{
+            "title": "Learn",
+            "offset":0,
+            "limit":20,
+            "sortBy":"",
+            "sortModel":""
+        },
+        "queryInfo":{
+            "returnCount":2,
+            "total":2
+        }
+    }
+}
+
+
 # Group Tags
 
 Tags of tasks
@@ -293,7 +575,7 @@ Tags of tasks
 
     + tag_id: `TG123` (string) - The id of the tag.
 
-### Load A Project [GET]
+### Load A Tag [GET]
 
 + Response 200 (application/json)
 
