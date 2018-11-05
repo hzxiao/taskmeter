@@ -214,11 +214,12 @@ Project represents a collection of tasks
 
 Task is the main data structure in this system. A task has basic info, attributes,
 
-and 3 states. A task must be in one state of following states:
+and 4 states. A task must be in one state of following states:
 
 + 10: represent paused state.
-+ 20: represent running state, Only one task per user is running
-+ 30: represent overdue state.
++ 12: represent running state, Only one task per user is running
++ 14: represent overdue state.
++ 15: represent completed state.
 
 ## Tasks Collection of Project [/api/v1/usr/projects/{project_id}/tasks]
 
@@ -426,6 +427,8 @@ and 3 states. A task must be in one state of following states:
 
     + title: (string, optional) - the input text to match title of tasks.
 
+    + state (number, optional) - The state of tasks, could be 10, 12, 14 or 15
+
     + offset (number, optional) - The start position of results to return.
         + Default: `0`
 
@@ -481,6 +484,7 @@ and 3 states. A task must be in one state of following states:
         ],
         "cond":{
             "title": "Learn",
+            "state": 10,
             "offset":0,
             "limit":20,
             "sortBy":"",
