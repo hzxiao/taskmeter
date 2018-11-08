@@ -29,6 +29,12 @@ const (
 	UsernameLogin = "USERNAME"
 )
 
+//login source
+const (
+	LoginFromWeb    = "Web"
+	LoginFromWeChat = "WeChat"
+)
+
 //status
 const (
 	Normal  = 100
@@ -37,7 +43,8 @@ const (
 
 //task state
 const (
-	TaskPaused  = 10
-	TaskRunning = 20
-	TaskOverdue = 30
+	TaskPaused    = 10
+	TaskRunning   = 12
+	TaskOverdue   = 14
+	TaskCompleted = 15
 )

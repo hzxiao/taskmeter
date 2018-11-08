@@ -59,7 +59,8 @@ func UpdateTaskBasic(task Task) error {
 			unset["runningMark"] = true
 		}
 	}
-	if task.State == constvar.TaskPaused {
+	switch task.State {
+	case constvar.TaskPaused:
 		set["state"] = task.State
 		//清除运行标志
 		unset["runningMark"] = true
@@ -68,12 +69,21 @@ func UpdateTaskBasic(task Task) error {
 		if task.Spending > 0 { //增加花费的时长
 			inc["spending"] = task.Spending
 		}
-	} else if task.State == constvar.TaskRunning {
+	case constvar.TaskRunning:
 		set["state"] = task.State
 		set["lastStart"] = timeutil.Now()
 		set["runningMark"] = task.Uid
 		//
 		finder["runningMark"] = bson.M{"$exists": false}
+	case constvar.TaskCompleted:
+		set["state"] = task.State
+		if task.Spending > 0 { //增加花费的时长
+			inc["spending"] = task.Spending
+		}
+		//清除运行标志
+		unset["runningMark"] = true
+		//防止并发
+		finder["state"] = bson.M{"$ne": constvar.TaskCompleted}
 	}
 
 	if len(set) == 0 {
@@ -91,8 +101,8 @@ func UpdateTaskBasic(task Task) error {
 
 	err := update(CollTask, finder, updater)
 	if err != nil {
-		err = errno.New(errno.ErrDatabase, err)
-		log.Errorf(err, "[UpdateTaskBasic] update task by finder(%v), updater(%v)", goutil.Struct2Json(finder), goutil.Struct2Json(updater))
+		err = errno.New(errno.ErrDatabase, err).Addf("update task by finder(%v), updater(%v)", goutil.Struct2Json(finder), goutil.Struct2Json(updater))
+		log.Error("[UpdateTaskBasic]", err)
 		return err
 	}
 	return nil
@@ -154,7 +164,7 @@ func LoadTask(id string, selector []string) (*Task, error) {
 	err := one(CollTask, finder, formatSelector(selector), &task)
 	if err != nil {
 		err = errno.New(errno.ErrDatabase, err).Addf("load task by id(%v)", id)
-		log.Errorf(err, "[LoadTask]")
+		log.Error("[LoadTask]", err)
 		return nil, err
 	}
 	return &task, nil

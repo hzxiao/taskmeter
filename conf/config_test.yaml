@@ -5,6 +5,7 @@ url: http://127.0.0.1:7271   # pingServer函数请求的API服务器的ip:port
 max_ping_count: 10           # pingServer函数try的次数
 jwt_secret: Rtg8BPKNEf2mB4mgvKONGPZZQSaJWNLijxR42qRgq0iBb5
 token_lookup: header-Authorization, query-token, cookie-jwt
+token_validity: 86400000
 tls:
   addr: :8971
   cert: conf/server.crt

@@ -1,10 +1,10 @@
 package config
 
 import (
+	"fmt"
 	"github.com/lexkong/log"
 	"github.com/spf13/viper"
 	"strings"
-	"fmt"
 )
 
 type Config struct {
@@ -60,11 +60,16 @@ func (c *Config) initLog() {
 	log.InitWithConfig(&passLagerCfg)
 }
 
-func (c *Config) Print()  {
+func (c *Config) Print() {
 	for k, v := range viper.AllSettings() {
 		fmt.Printf("%v = %v\n", k, v)
 	}
 }
+
 func GetString(key string) string {
 	return viper.GetString(key)
+}
+
+func GetInt64(key string) int64 {
+	return viper.GetInt64(key)
 }

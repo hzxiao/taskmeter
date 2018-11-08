@@ -6,21 +6,14 @@ import (
 	"github.com/hzxiao/taskmeter/pkg/constvar"
 	"github.com/hzxiao/taskmeter/pkg/errno"
 	"github.com/hzxiao/taskmeter/pkg/httptest"
+	"github.com/hzxiao/taskmeter/pkg/timeutil"
 	"github.com/hzxiao/taskmeter/pkg/token"
 	"github.com/hzxiao/taskmeter/service"
 	"github.com/lexkong/log"
+	"strconv"
 	"strings"
 )
 
-// @Summary SignUp a new user
-// @Description Add a new user
-// @Tags user
-// @Accept  json
-// @Produce  json
-// @Param username body string true "Username"
-// @Param password body string true "Password"
-// @Success 200 {string} json "{"code":0,"message":"OK","data":{"username":"kong"}}"
-// @Router /signup [post]...
 func SignUp(c *gin.Context) {
 	var data goutil.Map
 	if err := c.Bind(&data); err != nil {
@@ -50,13 +43,6 @@ func DoSignUp(data goutil.Map) (goutil.Map, error) {
 	return checkResultError(httptest.PostJSON("/api/v1/pub/signup", data))
 }
 
-// @Summary Login generates the authentication token
-// @Tags user
-// @Accept json
-// @Produce json
-// @Param user body model.Tag true "user info for login"
-// @Success 200 {string} json "{"code":0,"message":"OK","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MjgwMTY5MjIsImlkIjowLCJuYmYiOjE1MjgwMTY5MjIsInVzZXJuYW1lIjoiYWRtaW4ifQ.LjxrK9DuAwAzUD8-9v43NzWBN7HXsSLfebw92DKd1JQ"}}"
-// @Router /api/v1/pub/login [post]
 func Login(c *gin.Context) {
 	var data goutil.Map
 	if err := c.Bind(&data); err != nil {
@@ -72,8 +58,10 @@ func Login(c *gin.Context) {
 	}
 
 	tokenString, err := token.GenerateToken(token.Context{
-		ID:       user.GetString("id"),
-		Username: user.GetString("username"),
+		ID:           user.GetString("id"),
+		Username:     user.GetString("username"),
+		GenerateTime: strconv.FormatInt(timeutil.Now(), 10),
+		Source:       constvar.LoginFromWeb,
 	}, "")
 	if err != nil {
 		log.Errorf(err, "[Login] generate token by data(%v)", goutil.Struct2Json(user))
@@ -84,6 +72,7 @@ func Login(c *gin.Context) {
 	err = service.AddSignInRecord(user.GetString("id"), goutil.Map{
 		"username": user.GetString("username"),
 		"ip":       c.ClientIP(),
+		"source":   constvar.LoginFromWeb,
 	})
 	if err != nil {
 		log.Errorf(err, "[Login] add login record by uid(%v)", user.GetString("id"))

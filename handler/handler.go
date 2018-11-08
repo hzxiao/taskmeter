@@ -6,6 +6,7 @@ import (
 	"github.com/hzxiao/goutil"
 	"github.com/hzxiao/taskmeter/pkg/errno"
 	"github.com/hzxiao/taskmeter/pkg/timeutil"
+	"github.com/hzxiao/taskmeter/router/middleware"
 	"net/http"
 )
 
@@ -37,6 +38,17 @@ func Register(g *gin.Engine) {
 	pub.GET("/ping", Ping)
 	pub.POST("/signup", SignUp)
 	pub.POST("/login", Login)
+
+	usr := v1.Group("/usr")
+	usr.Use(middleware.Auth())
+
+	//tasks
+	usr.POST("/projects/:project_id/tasks", AddTask)
+	usr.GET("/projects/:project_id/tasks", ListTasks)
+	usr.PUT("/tasks/:task_id", UpdateTask)
+	usr.GET("/tasks/:task_id", LoadTask)
+	usr.DELETE("/tasks/:task_id", DelTask)
+	usr.GET("/search/tasks", SearchTasks)
 }
 
 func Ping(c *gin.Context) {
@@ -58,4 +70,10 @@ func checkResultError(data goutil.Map, err error) (goutil.Map, error) {
 	}
 
 	return data.GetMap("data"), nil
+}
+
+func newArgInvalidError(format string, message ...interface{}) error {
+	err := errno.New(errno.ErrApiArgumentInvalid, nil)
+	err.Addf(format, message...)
+	return err
 }

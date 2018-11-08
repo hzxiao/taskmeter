@@ -6,11 +6,12 @@ import (
 )
 
 const (
-	CollSeq  = "taskmeter_seq"
-	CollUser = "taskmeter_user"
-	CollOp   = "taskmeter_op"
-	CollTag  = "taskmeter_tag"
-	CollTask = "taskmeter_task"
+	CollSeq     = "taskmeter_seq"
+	CollUser    = "taskmeter_user"
+	CollOp      = "taskmeter_op"
+	CollTag     = "taskmeter_tag"
+	CollTask    = "taskmeter_task"
+	CollProject = "taskmeter_project"
 )
 
 var indexMap = map[string][]mgo.Index{
@@ -23,6 +24,9 @@ var indexMap = map[string][]mgo.Index{
 		{Name: "running_mark", Key: []string{"runningMark"}, Unique: true, Sparse: true},
 	},
 	CollTag: {
+		{Name: "uidName", Key: []string{"uidName"}, Unique: true, Sparse: true},
+	},
+	CollProject: {
 		{Name: "uidName", Key: []string{"uidName"}, Unique: true, Sparse: true},
 	},
 }

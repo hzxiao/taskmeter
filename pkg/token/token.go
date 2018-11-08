@@ -1,12 +1,13 @@
 package token
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/hzxiao/goutil"
 	"github.com/hzxiao/taskmeter/config"
-	"github.com/hzxiao/taskmeter/pkg/timeutil"
 	"strings"
 )
 
@@ -15,8 +16,22 @@ var (
 )
 
 type Context struct {
-	ID       string
-	Username string
+	ID           string `json:"id"`
+	Username     string `json:"username"`
+	GenerateTime string `json:"generateTime"`
+	Source       string `json:"source"`
+}
+
+func (c Context) ToMap() goutil.Map {
+	return goutil.Struct2Map(&c)
+}
+
+func (c *Context) LoadFromMap(data map[string]interface{}) error {
+	buf, err := json.Marshal(data)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(buf, &c)
 }
 
 func ParseRequest(c *gin.Context) (*Context, error) {
@@ -96,8 +111,10 @@ func Parse(tokenString string, secret string) (*Context, error) {
 	if err != nil {
 		return ctx, err
 	} else if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		ctx.ID = claims["id"].(string)
-		ctx.Username = claims["username"].(string)
+		err = ctx.LoadFromMap(claims)
+		if err != nil {
+			return ctx, err
+		}
 		return ctx, nil
 	} else {
 		return ctx, err
@@ -121,12 +138,11 @@ func GenerateToken(ctx Context, secret string) (tokenString string, err error) {
 		secret = config.GetString("jwt_secret")
 	}
 	// The token content.
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":       ctx.ID,
-		"username": ctx.Username,
-		"nbf":      timeutil.Now(),
-		"iat":      timeutil.Now(),
-	})
+	claims := jwt.MapClaims{}
+	for k, v := range ctx.ToMap() {
+		claims[k] = v
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	// Sign the token with the specified secret.
 	tokenString, err = token.SignedString([]byte(secret))
 

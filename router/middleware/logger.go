@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"github.com/hzxiao/taskmeter/handler"
 	"github.com/hzxiao/taskmeter/pkg/errno"
 	"github.com/lexkong/log"
 	"github.com/willf/pad"
@@ -64,7 +63,12 @@ func Logger() gin.HandlerFunc {
 		code, message := -1, ""
 
 		// get code and message
-		var response handler.Response
+		var response struct {
+			Code    int         `json:"code"`
+			Message string      `json:"message"`
+			Data    interface{} `json:"data"`
+		}
+
 		if err := json.Unmarshal(blw.body.Bytes(), &response); err != nil {
 			log.Errorf(err, "response body can not unmarshal to model.Response struct, body: `%s`", blw.body.Bytes())
 			code = errno.InternalServerError.Code
