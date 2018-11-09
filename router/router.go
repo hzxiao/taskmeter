@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	// "github.com/hzxiao/taskmeter/handler"
+	"github.com/hzxiao/taskmeter/handler"
 	"github.com/hzxiao/taskmeter/router/middleware"
 	"net/http"
 )
@@ -17,6 +17,6 @@ func Load(g *gin.Engine, mw ...gin.HandlerFunc) *gin.Engine {
 		c.String(http.StatusNotFound, "The incorrect API route.")
 	})
 
-	// handler.Register(g)
+	handler.Register(g)
 	return g
 }
