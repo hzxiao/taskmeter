@@ -21,4 +21,5 @@ var (
 	ErrServiceArgInvalid  = &Errno{Code: 20107, Message: "The argument is invalid in Service layer."}
 	ErrApiArgumentInvalid = &Errno{Code: 20108, Message: "The argument is invalid in API layer."}
 	ErrUserInvalid        = &Errno{Code: 20109, Message: "The user status was invalid."}
+	ErrQueryValueInvalid  = &Errno{Code: 20110, Message: "The query value in url was invalid."}
 )

@@ -7,6 +7,7 @@ import (
 	"github.com/hzxiao/taskmeter/pkg/timeutil"
 	"github.com/lexkong/log"
 	"gopkg.in/mgo.v2/bson"
+	"github.com/hzxiao/taskmeter/util"
 )
 
 func InsertTask(task *Task) error {
@@ -143,6 +144,9 @@ func ListTasks(task Task, selector, sort []string, skip, limit int) ([]*Task, in
 	}
 	if task.Pid != "" {
 		finder["pid"] = task.Pid
+	}
+	if task.Title != "" {
+		finder["title"] = bson.M{"$regex": util.ParseRegex(task.Title), "$option":"i"}
 	}
 	if len(task.Tags) > 0 {
 		finder["tags"] = bson.M{"$elemMatch": bson.M{"$in": task.Tags}}
