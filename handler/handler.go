@@ -151,6 +151,9 @@ func CheckURLArg(formValue map[string][]string, args []*Arg) (goutil.Map, error)
 }
 
 func formatSort(sortBy, sortModel string) []string {
+	if sortBy == "" {
+		return nil
+	}
 	if sortModel == "desc" {
 		sortBy = "-" + sortBy
 	}
